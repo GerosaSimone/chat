@@ -10,7 +10,7 @@ package chat;
  * @author gerosa_simone
  */
 public class Form1 extends javax.swing.JFrame {
-
+Ricezione r;
     /**
      * Creates new form Form1
      */
@@ -46,6 +46,9 @@ public class Form1 extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    public void setRicezione(Ricezione r){
+        this.r=r;
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
