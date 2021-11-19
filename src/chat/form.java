@@ -16,18 +16,14 @@ import java.util.logging.Logger;
 public class form extends javax.swing.JPanel {
 
     Ricezione r;
+    
     /**
      * Creates new form form
      */
     public form() throws SocketException {
         initComponents();
-        r=new Ricezione();
-        r.start();
-        try {
-            r.join();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(form.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //possibilita di impostare il proprio nome
+        
     }
 
     /**
@@ -39,19 +35,71 @@ public class form extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Mittente = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        conf = new javax.swing.JButton();
+
+        jLabel1.setText("Nome/UserName:");
+
+        conf.setText("Invia");
+        conf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Mittente, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(conf)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(127, 127, 127)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(111, 111, 111)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Mittente)
+                            .addComponent(conf, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE))))
+                .addContainerGap(135, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void confActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confActionPerformed
+        try {
+            // TODO add your handling code here:
+            r=new Ricezione(Mittente.getText());
+        } catch (SocketException ex) {
+            Logger.getLogger(form.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        r.start();
+        try {
+            r.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(form.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Form1 f=new Form1();
+        f.setRicezione(r);
+        this.setVisible(false);
+        
+    }//GEN-LAST:event_confActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Mittente;
+    private javax.swing.JButton conf;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

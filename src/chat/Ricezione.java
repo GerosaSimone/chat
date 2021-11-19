@@ -26,11 +26,12 @@ public class Ricezione extends Thread {
     Comunicazione c1;
     static InetAddress vecchio;
 
-    public Ricezione() throws SocketException {
+    public Ricezione(String Nome) throws SocketException {
         this.socket = new DatagramSocket(12345);
         indirizzoMittente = null;
         c1 = Comunicazione.getComunicazione();
         vecchio = null;
+        Comunicazione.getComunicazione().NomeMittente=Nome;
 
     }
 
@@ -50,7 +51,7 @@ public class Ricezione extends Thread {
             }
             if (vecchio != null) {
                 indirizzoMittente = packet.getAddress();
-                if (vecchio == indirizzoMittente) {
+                if (vecchio.equals(indirizzoMittente)) {
 
                     try {
                         c1.setInvia(indirizzoMittente);
