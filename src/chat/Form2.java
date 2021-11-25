@@ -5,6 +5,12 @@
  */
 package chat;
 
+import java.awt.Color;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+
 /**
  *
  * @author gerosa_simone
@@ -12,18 +18,19 @@ package chat;
 public class Form2 extends javax.swing.JFrame {
 
     Chat c;
-    Ricezione r;
+    Comunicazione c1;
     /**
      * Creates new form Form2
      */
     public Form2() {
         initComponents();
         c=new Chat(this);
-        this.r=null;
+        
     }
     
-    public void setRicezione(Ricezione r){
-        this.r=r;
+    public void setRicezione(Comunicazione a){
+        this.c1=a;
+        c.start();
     }
 
     /**
@@ -35,57 +42,93 @@ public class Form2 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Nome = new javax.swing.JLabel();
+        TxtMessaggio = new javax.swing.JTextField();
+        Invia = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        Invia.setText("Invia");
+        Invia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                InviaMouseClicked(evt);
+            }
+        });
+        Invia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InviaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(Nome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(TxtMessaggio, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Invia, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 230, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(TxtMessaggio)
+                    .addComponent(Invia, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void InviaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_InviaMouseClicked
+        if(TxtMessaggio.getText()!=""){
+        try {
+            // TODO add your handling code here:
+            c1.InviaMessaggio(TxtMessaggio.getText());
+            TxtMessaggio.setText("");
+        } catch (IOException ex) {
+            Logger.getLogger(Form2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        }
+    }//GEN-LAST:event_InviaMouseClicked
+
+    private void InviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InviaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InviaActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Form2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Form2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Form2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Form2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+  
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Form2().setVisible(true);
-            }
-        });
+    
+    public void setPersona(String s){
+        Nome.setText(s);
     }
-
+    
+    public void AggiungiDestra(String s,int y,int altezza){
+        JLabel l=new JLabel();
+        l.setBounds(200, y, 200, altezza);
+        l.setText(s);
+        l.setBackground(Color.GREEN);
+        this.add(l);
+    }
+    public void AggiungiSinistra(String s,int y,int altezza){
+        JLabel l=new JLabel();
+        l.setBounds(0, y, 200, altezza);
+        l.setText(s);
+        l.setBackground(Color.LIGHT_GRAY);
+        this.add(l);
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Invia;
+    private javax.swing.JLabel Nome;
+    private javax.swing.JTextField TxtMessaggio;
     // End of variables declaration//GEN-END:variables
 }

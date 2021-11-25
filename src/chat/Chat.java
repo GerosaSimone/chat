@@ -18,6 +18,8 @@ public class Chat extends Thread {
     static Chat c;
     ArrayList<Messaggio> Messaggi;
     ArrayList<Messaggio> QueueMessaggi;
+    Integer Ys;
+    Integer Yd;
     String Persona;
     Form2 f;
 
@@ -61,7 +63,7 @@ public class Chat extends Thread {
             if(Persona!=null&&!set)
             {
                 //imposto persona in alto
-                
+                f.setPersona(Persona);
                 set = true;
             }else
                 set=false;
@@ -73,15 +75,39 @@ public class Chat extends Thread {
                  
                  if(m.Type==Messaggio.ARRIVATO){
                      //stampo m.message a sinistra
+                     f.AggiungiSinistra(dividiMessaggio(m.message), Ys, calcolaAltezza(m.message));
                  }
                  if(m.Type==Messaggio.INVIATO){
                      //stampo m.message a destra
+                     f.AggiungiDestra(dividiMessaggio(m.message), Ys, calcolaAltezza(m.message));
                  }
                  
                  Messaggi.add(m);
             }
         }
         
+    }
+    
+    public String dividiMessaggio(String s){
+        String S="";
+        Integer count=0;
+        for (int i = 0; i < s.length()/30; i++) {
+            while(count<30){
+                if(s.charAt(count)==' '&&count>=30)
+                {
+                    char[] c=s.toCharArray();
+                    c[count]='\n';
+                    S+=c;
+                }
+                count++;
+            }
+            count=0;
+        }
+        return S;
+    }
+    
+    public Integer calcolaAltezza(String s){
+        return (s.length()/30)*10; 
     }
     
     

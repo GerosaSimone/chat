@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  */
 //oggetto comunicazione creare nel main
 public class Comunicazione {
-    
+    Form1 f;
     static Comunicazione c;
     Invia invia;
     String NomeDestinatario;
@@ -113,6 +113,11 @@ public class Comunicazione {
         } else if (operazione.equals("y")) {
             
             Chat.getInstance().Persona = dato;
+            Form2 f=new Form2();
+            f.setVisible(true);
+            f.setRicezione(c);
+            this.f.setVisible(false);
+            
             //metodo statico che mette il destinatario in alto al form
             //inizia conversazione
         } else if (operazione.equals("n")) {
@@ -141,9 +146,11 @@ public class Comunicazione {
     }
 
     //invia comunicazione da form
-    public void InviaRichiestaComunicazione(String indirizzo) throws IOException {
+    public void InviaRichiestaComunicazione(String indirizzo,Form1 f) throws IOException {
+        this.f=f;
         invia.setIndirizzoDestinatario(InetAddress.getByName(indirizzo));
         this.invia.send("a;" + this.NomeMittente);
+        
     }
     
 }
