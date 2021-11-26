@@ -27,7 +27,7 @@ public class Ricezione extends Thread {
     static InetAddress vecchio;
 
     public Ricezione(String Nome) throws SocketException {
-        this.socket = new DatagramSocket(12345);
+        this.socket = new DatagramSocket(1235);
         indirizzoMittente = null;
         c1 = Comunicazione.getComunicazione();
         vecchio = null;
@@ -49,6 +49,7 @@ public class Ricezione extends Thread {
             } catch (IOException ex) {
                 Logger.getLogger(Ricezione.class.getName()).log(Level.SEVERE, null, ex);
             }
+            System.out.println("ricevuto: "+packet.getData());
             if (vecchio != null) {
                 indirizzoMittente = packet.getAddress();
                 if (vecchio.equals(indirizzoMittente)) {
@@ -56,7 +57,10 @@ public class Ricezione extends Thread {
                     try {
                         c1.setInvia(indirizzoMittente);
                         setoperazioneEdato(new String(packet.getData(), 0, packet.getLength()));
+                        c1.creaMessaggioEInvia();
                     } catch (SocketException ex) {
+                        Logger.getLogger(Ricezione.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
                         Logger.getLogger(Ricezione.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
@@ -71,7 +75,10 @@ public class Ricezione extends Thread {
 
                     c1.setInvia(vecchio);
                     setoperazioneEdato(new String(packet.getData(), 0, packet.getLength()));
+                    c1.creaMessaggioEInvia();
                 } catch (SocketException ex) {
+                    Logger.getLogger(Ricezione.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
                     Logger.getLogger(Ricezione.class.getName()).log(Level.SEVERE, null, ex);
                 }
 

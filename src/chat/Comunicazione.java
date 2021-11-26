@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
  */
 //oggetto comunicazione creare nel main
 public class Comunicazione {
+
     Form1 f;
     static Comunicazione c;
     Invia invia;
@@ -25,9 +26,9 @@ public class Comunicazione {
     String NomeMittente;
     String operazione;
     String dato;
-    
+
     public Comunicazione() throws SocketException {
-        
+        this.f = Form1.Singleton();
         this.invia = new Invia();
         this.operazione = "";
         this.dato = "";
@@ -35,17 +36,18 @@ public class Comunicazione {
         NomeMittente = null;
         c = null;
     }
-    
+
     public void azzera() throws SocketException {
+        f = Form1.Singleton();
         this.invia.azzera();
         this.operazione = "";
         this.dato = "";
         NomeDestinatario = null;
         c = null;
     }
-    
+
     public Comunicazione(String nome) throws SocketException {
-        
+        f = Form1.Singleton();
         this.invia = new Invia();
         this.operazione = "";
         this.dato = "";
@@ -53,39 +55,46 @@ public class Comunicazione {
         NomeMittente = nome;
         c = null;
     }
-    
+
     public void setInvia(InetAddress invia) throws SocketException {
         this.invia.setIndirizzoDestinatario(invia);
         ;
     }
-    
+
     public void setOperazione(String operazione) {
         this.operazione = operazione;
     }
-    
+
     public void setDato(String dato) {
         this.dato = dato;
     }
-    
+
     public static synchronized Comunicazione getComunicazione() throws SocketException {
         if (c == null) {
             c = new Comunicazione();
         }
         return c;
     }
-    
+
     public void creaMessaggioEInvia() throws IOException {
+        System.out.println("operazione:" + operazione);
+        System.out.println("dato:" + dato);
         if (operazione.equals("a")) {
             if (NomeDestinatario == null) {
                 int option = JOptionPane.showConfirmDialog(null, "accettare la comunicazione con:" + this.dato, "richiesta", JOptionPane.YES_NO_OPTION);
-                
+
                 if (option == 0) { //The ISSUE is here
+                    this.f=Form1.Singleton();
                     NomeDestinatario = this.dato;
                     invia.send("y;" + NomeMittente);
-                    Chat.getInstance().Persona=NomeDestinatario;
-                    
+                    Chat.getInstance().Persona = NomeDestinatario;
+                    Form2 f = new Form2();
+                    f.setVisible(true);
+                    f.setRicezione(c);
+                    this.f.setVisible(false);
+
                 } else {
-                    invia.send("n;;");
+                    invia.send("n;no;");
                     azzera();
                     invia.azzera();
                     //imposto vecchio della ricezione a null
@@ -93,14 +102,14 @@ public class Comunicazione {
                     Chat.getInstance().azzera();
                 }
             } else {
-                invia.send("n;;");
+                invia.send("n;no;");
                 Ricezione.vecchio = null;
                 Chat.getInstance().azzera();
                 //imposto vecchio della ricezione a null
             }
-            
+
         } else if (operazione.equals("m")) {
-            Chat.getInstance().AggiungiMessaggio(new Messaggio(dato,0));
+            Chat.getInstance().AggiungiMessaggio(new Messaggio(dato, 0));
             //visualizziamo a schermo il messaggio
             //metodo aggiungi messaggio statico nel form 
         } else if (operazione.equals("c")) {
@@ -111,13 +120,13 @@ public class Comunicazione {
             Ricezione.vecchio = null;
             Chat.getInstance().azzera();
         } else if (operazione.equals("y")) {
-            
+this.f=Form1.Singleton();
             Chat.getInstance().Persona = dato;
-            Form2 f=new Form2();
+            Form2 f = new Form2();
             f.setVisible(true);
             f.setRicezione(c);
             this.f.setVisible(false);
-            
+
             //metodo statico che mette il destinatario in alto al form
             //inizia conversazione
         } else if (operazione.equals("n")) {
@@ -134,7 +143,7 @@ public class Comunicazione {
     //invia mess da form
     public void InviaMessaggio(String m) throws IOException {
         this.invia.send("m;" + m);
-        Chat.getInstance().AggiungiMessaggio(new Messaggio(dato,1));
+        Chat.getInstance().AggiungiMessaggio(new Messaggio(dato, 1));
     }
 
     //invia chiusura da form
@@ -146,11 +155,10 @@ public class Comunicazione {
     }
 
     //invia comunicazione da form
-    public void InviaRichiestaComunicazione(String indirizzo,Form1 f) throws IOException {
-        this.f=f;
+    public void InviaRichiestaComunicazione(String indirizzo) throws IOException {
         invia.setIndirizzoDestinatario(InetAddress.getByName(indirizzo));
         this.invia.send("a;" + this.NomeMittente);
-        
+
     }
-    
+
 }

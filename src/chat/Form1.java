@@ -14,18 +14,24 @@ import java.util.logging.Logger;
  * @author gero
  */
 public class Form1 extends javax.swing.JFrame {
-
+    static Form1 f;
     Ricezione r;
     /**
      * Creates new form Form1
      */
     public Form1() {
         initComponents();
+        f=this;
+        
         
     }
     
     public void setRicezione(Ricezione r){
         this.r=r;
+    }
+    
+    static Form1 Singleton(){
+        return f;
     }
 
     /**
@@ -82,9 +88,10 @@ public class Form1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        Txt.setText("");
         try {
             // TODO add your handling code here:
-            r.c1.InviaRichiestaComunicazione(Txt.getText(),this);
+            r.c1.InviaRichiestaComunicazione(Txt.getText());
             
         } catch (IOException ex) {
             Logger.getLogger(Form1.class.getName()).log(Level.SEVERE, null, ex);

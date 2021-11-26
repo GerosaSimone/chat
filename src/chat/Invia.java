@@ -52,5 +52,8 @@ public class Invia {
         pacchetto.setPort(portaDestinatario);
 
         socket.send(pacchetto);
+         System.out.println(messaggio);
+        System.out.println(indirizzoDestinatario);
+        System.out.println(portaDestinatario);
     }
 }
