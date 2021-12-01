@@ -62,6 +62,12 @@ public class Form2 extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        Nome.setBackground(new java.awt.Color(255, 255, 255));
+        Nome.setFont(new java.awt.Font("Engravers MT", 1, 24)); // NOI18N
+        Nome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        Invia.setBackground(new java.awt.Color(255, 255, 255));
+        Invia.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         Invia.setText("Invia");
         Invia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -88,10 +94,10 @@ public class Form2 extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 230, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 229, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(TxtMessaggio)
-                    .addComponent(Invia, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)))
+                    .addComponent(Invia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();

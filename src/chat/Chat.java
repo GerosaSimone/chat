@@ -18,8 +18,8 @@ public class Chat extends Thread {
     static Chat c;
     ArrayList<Messaggio> Messaggi;
     ArrayList<Messaggio> QueueMessaggi;
-    Integer Ys;
-    Integer Yd;
+    
+    Integer Y;
     String Persona;
     Form2 f;
 
@@ -29,6 +29,8 @@ public class Chat extends Thread {
         Messaggi = new ArrayList();
         QueueMessaggi = new ArrayList();
         Persona=null;
+        Y=0;
+       
     }
 
 
@@ -73,11 +75,13 @@ public class Chat extends Thread {
                  
                  if(m.Type==Messaggio.ARRIVATO){
                      //stampo m.message a sinistra
-                     f.AggiungiSinistra(dividiMessaggio(m.message), Ys, calcolaAltezza(m.message));
+                     f.AggiungiSinistra(dividiMessaggio(m.message), Y, calcolaAltezza(m.message));
+                     Y+=calcolaAltezza(m.message);
                  }
                  if(m.Type==Messaggio.INVIATO){
                      //stampo m.message a destra
-                     f.AggiungiDestra(dividiMessaggio(m.message), Ys, calcolaAltezza(m.message));
+                     f.AggiungiDestra(dividiMessaggio(m.message), Y, calcolaAltezza(m.message));
+                     Y+=calcolaAltezza(m.message);
                  }
                  
                  Messaggi.add(m);
