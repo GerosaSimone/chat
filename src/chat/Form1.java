@@ -21,17 +21,18 @@ public class Form1 extends javax.swing.JFrame {
      */
     public Form1() {
         initComponents();
-        f=this;
-        
-        
+        f=this;    
     }
     
     public void setRicezione(Ricezione r){
         this.r=r;
     }
     
-    static Form1 Singleton(){
-        return f;
+    public static synchronized Form1 Singleton(){
+        if(f==null)
+        f=new Form1();
+       
+        return f;        
     }
 
     /**

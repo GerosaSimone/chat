@@ -23,19 +23,14 @@ public class Chat extends Thread {
     String Persona;
     Form2 f;
 
+    
     public Chat() throws SocketException {
-        f = new Form2();
+        f = Form2.Singleton();
         Messaggi = new ArrayList();
         QueueMessaggi = new ArrayList();
         Persona=null;
     }
 
-    public Chat(Form2 f) {
-        this.f = f;
-        Messaggi = new ArrayList();
-        QueueMessaggi = new ArrayList();
-        Persona=null;
-    }
 
     public static Chat getInstance() throws SocketException {
         // Crea l'oggetto solo se NON esiste:
@@ -45,6 +40,9 @@ public class Chat extends Thread {
         return c;
     }
 
+    public void SetPersona(String s){
+    Persona=s;
+}
     public void AggiungiMessaggio(Messaggio m) {
         QueueMessaggi.add(m);
     }

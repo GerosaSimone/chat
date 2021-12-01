@@ -85,10 +85,8 @@ Ricezione r;
             Logger.getLogger(FormMain.class.getName()).log(Level.SEVERE, null, ex);
         }
         r.start();
-       
-        
-        
-        Form1 f = new Form1();
+         
+        Form1 f = Form1.Singleton();
         f.setRicezione(r);  
         this.setVisible(false);
         f.setVisible(true);

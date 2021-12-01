@@ -7,6 +7,7 @@ package chat;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -17,20 +18,32 @@ import javax.swing.JLabel;
  */
 public class Form2 extends javax.swing.JFrame {
 
+    static Form2 f;
     Chat c;
     Comunicazione c1;
+
     /**
      * Creates new form Form2
      */
-    public Form2() {
+    public Form2() throws SocketException {
         initComponents();
-        c=new Chat(this);
+        f=this;
+        c = Chat.getInstance();
         
     }
-    
-    public void setRicezione(Comunicazione a){
-        c=new Chat(this);
-        this.c1=a;
+
+     public static synchronized Form2 Singleton() throws SocketException {
+        if (f == null) {
+            f = new Form2();
+        }
+
+        return f;
+
+    }
+
+    public void setRicezione(Comunicazione a) throws SocketException {
+        c = Chat.getInstance();
+        this.c1 = a;
         c.start();
     }
 
@@ -85,15 +98,15 @@ public class Form2 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void InviaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_InviaMouseClicked
-        if(TxtMessaggio.getText()!=""){
-        try {
-            // TODO add your handling code here:
-            c1.InviaMessaggio(TxtMessaggio.getText());
-            TxtMessaggio.setText("");
-        } catch (IOException ex) {
-            Logger.getLogger(Form2.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        if (TxtMessaggio.getText() != "") {
+            try {
+                // TODO add your handling code here:
+                c1.InviaMessaggio(TxtMessaggio.getText());
+                TxtMessaggio.setText("");
+            } catch (IOException ex) {
+                Logger.getLogger(Form2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }//GEN-LAST:event_InviaMouseClicked
 
@@ -104,29 +117,27 @@ public class Form2 extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-  
-
-    
-    public void setPersona(String s){
+    public void setPersona(String s) {
         Nome.setText(s);
     }
-    
-    public void AggiungiDestra(String s,int y,int altezza){
-        JLabel l=new JLabel();
+
+    public void AggiungiDestra(String s, int y, int altezza) {
+        JLabel l = new JLabel();
         l.setBounds(200, y, 200, altezza);
         l.setText(s);
         l.setBackground(Color.GREEN);
         this.add(l);
     }
-    public void AggiungiSinistra(String s,int y,int altezza){
-        JLabel l=new JLabel();
+
+    public void AggiungiSinistra(String s, int y, int altezza) {
+        JLabel l = new JLabel();
         l.setBounds(0, y, 200, altezza);
         l.setText(s);
         l.setBackground(Color.LIGHT_GRAY);
         this.add(l);
     }
-    
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Invia;
     private javax.swing.JLabel Nome;

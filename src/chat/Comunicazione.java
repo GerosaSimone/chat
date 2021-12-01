@@ -20,25 +20,30 @@ import javax.swing.JOptionPane;
 public class Comunicazione {
 
     Form1 f;
+    Form2 f2;
     static Comunicazione c;
     Invia invia;
     String NomeDestinatario;
     String NomeMittente;
     String operazione;
     String dato;
+    Chat c1;
 
     public Comunicazione() throws SocketException {
         this.f = Form1.Singleton();
+        f2 = Form2.Singleton();
         this.invia = new Invia();
         this.operazione = "";
         this.dato = "";
         NomeDestinatario = null;
         NomeMittente = null;
         c = null;
+        c1=Chat.getInstance();
     }
 
     public void azzera() throws SocketException {
-        f = Form1.Singleton();
+        this.f = Form1.Singleton();
+        f2 = Form2.Singleton();
         this.invia.azzera();
         this.operazione = "";
         this.dato = "";
@@ -48,17 +53,19 @@ public class Comunicazione {
 
     public Comunicazione(String nome) throws SocketException {
         f = Form1.Singleton();
+        f2 = Form2.Singleton();
         this.invia = new Invia();
         this.operazione = "";
         this.dato = "";
         NomeDestinatario = null;
         NomeMittente = nome;
         c = null;
+        c1=Chat.getInstance();
     }
 
     public void setInvia(InetAddress invia) throws SocketException {
         this.invia.setIndirizzoDestinatario(invia);
-        ;
+
     }
 
     public void setOperazione(String operazione) {
@@ -84,13 +91,12 @@ public class Comunicazione {
                 int option = JOptionPane.showConfirmDialog(null, "accettare la comunicazione con:" + this.dato, "richiesta", JOptionPane.YES_NO_OPTION);
 
                 if (option == 0) { //The ISSUE is here
-                    this.f=Form1.Singleton();
+                    this.f = Form1.Singleton();
                     NomeDestinatario = this.dato;
-                    invia.send("y;" + NomeMittente);
-                    Chat.getInstance().Persona = NomeDestinatario;
-                    Form2 f = new Form2();
-                    f.setVisible(true);
-                    f.setRicezione(c);
+                    invia.send("y;" + NomeMittente);    
+                    c1.SetPersona(NomeDestinatario);
+                    f2.setVisible(true);
+                    f2.setRicezione(this.c);
                     this.f.setVisible(false);
 
                 } else {
@@ -99,17 +105,17 @@ public class Comunicazione {
                     invia.azzera();
                     //imposto vecchio della ricezione a null
                     Ricezione.vecchio = null;
-                    Chat.getInstance().azzera();
+                    c1.azzera();
                 }
             } else {
                 invia.send("n;no;");
                 Ricezione.vecchio = null;
-                Chat.getInstance().azzera();
+                c1.azzera();
                 //imposto vecchio della ricezione a null
             }
 
         } else if (operazione.equals("m")) {
-            Chat.getInstance().AggiungiMessaggio(new Messaggio(dato, 0));
+            c1.AggiungiMessaggio(new Messaggio(dato, 0));
             //visualizziamo a schermo il messaggio
             //metodo aggiungi messaggio statico nel form 
         } else if (operazione.equals("c")) {
@@ -118,13 +124,12 @@ public class Comunicazione {
             azzera();
             invia.azzera();
             Ricezione.vecchio = null;
-            Chat.getInstance().azzera();
+            c1.azzera();
         } else if (operazione.equals("y")) {
-this.f=Form1.Singleton();
-            Chat.getInstance().Persona = dato;
-            Form2 f = new Form2();
-            f.setVisible(true);
-            f.setRicezione(c);
+            this.f = Form1.Singleton();
+            c1.SetPersona(dato);
+            f2.setVisible(true);
+            f2.setRicezione(c);
             this.f.setVisible(false);
 
             //metodo statico che mette il destinatario in alto al form
@@ -133,7 +138,7 @@ this.f=Form1.Singleton();
             azzera();
             invia.azzera();
             Ricezione.vecchio = null;
-            Chat.getInstance().azzera();
+            c1.azzera();
             //imposto vecchio della ricezione a null
         } else {
             //arrivata un operazione nulla
