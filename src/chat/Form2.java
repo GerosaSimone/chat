@@ -29,6 +29,7 @@ public class Form2 extends javax.swing.JFrame {
     }
     
     public void setRicezione(Comunicazione a){
+        c=new Chat(this);
         this.c1=a;
         c.start();
     }
