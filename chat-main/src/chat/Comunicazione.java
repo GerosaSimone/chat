@@ -37,8 +37,7 @@ public class Comunicazione {
         this.dato = "";
         NomeDestinatario = null;
         NomeMittente = null;
-        c = null;
-        c1=Chat.getInstance();
+        c1 = Chat.getInstance();
     }
 
     public void azzera() throws SocketException {
@@ -48,7 +47,7 @@ public class Comunicazione {
         this.operazione = "";
         this.dato = "";
         NomeDestinatario = null;
-        c = null;
+        
     }
 
     public Comunicazione(String nome) throws SocketException {
@@ -59,8 +58,7 @@ public class Comunicazione {
         this.dato = "";
         NomeDestinatario = null;
         NomeMittente = nome;
-        c = null;
-        c1=Chat.getInstance();
+        c1 = Chat.getInstance();
     }
 
     public void setInvia(InetAddress invia) throws SocketException {
@@ -93,7 +91,7 @@ public class Comunicazione {
                 if (option == 0) { //The ISSUE is here
                     this.f = Form1.Singleton();
                     NomeDestinatario = this.dato;
-                    invia.send("y;" + NomeMittente);    
+                    invia.send("y;" + NomeMittente);
                     c1.SetPersona(NomeDestinatario);
                     f2.setVisible(true);
                     f2.setRicezione(this.c);
@@ -121,10 +119,14 @@ public class Comunicazione {
         } else if (operazione.equals("c")) {
             //settodestinatario a null
             //messagebox connessione chiusa
+            f2.setVisible(false);
+            f2.azzera();
+            Ricezione.vecchio = null;
             azzera();
             invia.azzera();
-            Ricezione.vecchio = null;
             c1.azzera();
+            f.setVisible(true);
+            JOptionPane.showConfirmDialog(null, "connessione terminata","errore",JOptionPane.DEFAULT_OPTION);
         } else if (operazione.equals("y")) {
             this.f = Form1.Singleton();
             c1.SetPersona(dato);
@@ -147,16 +149,18 @@ public class Comunicazione {
 
     //invia mess da form
     public void InviaMessaggio(String m) throws IOException {
-        this.invia.send("m;" + m);
-        Chat.getInstance().AggiungiMessaggio(new Messaggio(dato, 1));
+        this.invia.send("m;" + m+";");
+        c1.AggiungiMessaggio(new Messaggio(m, 1));
     }
 
     //invia chiusura da form
     public void chiudicomunicazione() throws IOException {
-        this.invia.send("c;;");
+        f2.setVisible(false);
+        this.invia.send("c;-1;");
         azzera();
         invia.azzera();
-        Chat.getInstance().azzera();
+        c1.azzera();
+        f.setVisible(true);
     }
 
     //invia comunicazione da form

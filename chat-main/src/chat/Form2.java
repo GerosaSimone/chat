@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
 /**
@@ -21,18 +22,19 @@ public class Form2 extends javax.swing.JFrame {
     static Form2 f;
     Chat c;
     Comunicazione c1;
+    boolean start=false;
 
     /**
      * Creates new form Form2
      */
     public Form2() throws SocketException {
         initComponents();
-        f=this;
+        f = this;
         c = Chat.getInstance();
-        
+
     }
 
-     public static synchronized Form2 Singleton() throws SocketException {
+    public static synchronized Form2 Singleton() throws SocketException {
         if (f == null) {
             f = new Form2();
         }
@@ -44,7 +46,10 @@ public class Form2 extends javax.swing.JFrame {
     public void setRicezione(Comunicazione a) throws SocketException {
         c = Chat.getInstance();
         this.c1 = a;
+        if(start==false){
         c.start();
+        start=true;
+        }
     }
 
     /**
@@ -58,7 +63,10 @@ public class Form2 extends javax.swing.JFrame {
 
         Nome = new javax.swing.JLabel();
         TxtMessaggio = new javax.swing.JTextField();
-        Invia = new javax.swing.JButton();
+        invia = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        panel = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,17 +74,36 @@ public class Form2 extends javax.swing.JFrame {
         Nome.setFont(new java.awt.Font("Engravers MT", 1, 24)); // NOI18N
         Nome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        Invia.setBackground(new java.awt.Color(255, 255, 255));
-        Invia.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        Invia.setText("Invia");
-        Invia.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                InviaMouseClicked(evt);
+        invia.setBackground(new java.awt.Color(255, 255, 255));
+        invia.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        invia.setText("Invia");
+        invia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inviaActionPerformed(evt);
             }
         });
-        Invia.addActionListener(new java.awt.event.ActionListener() {
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 415, Short.MAX_VALUE)
+        );
+        panelLayout.setVerticalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 211, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(panel);
+
+        jButton1.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jButton1.setText("quit");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InviaActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -84,27 +111,36 @@ public class Form2 extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Nome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(Nome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(TxtMessaggio, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Invia, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(invia, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 229, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(TxtMessaggio)
-                    .addComponent(Invia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(invia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void InviaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_InviaMouseClicked
-        if (TxtMessaggio.getText() != "") {
+    private void inviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inviaActionPerformed
+        // TODO add your handling code here:
+          if (TxtMessaggio.getText() != "") {
             try {
                 // TODO add your handling code here:
                 c1.InviaMessaggio(TxtMessaggio.getText());
@@ -114,12 +150,22 @@ public class Form2 extends javax.swing.JFrame {
             }
 
         }
-    }//GEN-LAST:event_InviaMouseClicked
+    }//GEN-LAST:event_inviaActionPerformed
 
-    private void InviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InviaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_InviaActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            // TODO add your handling code here:
+            c1.chiudicomunicazione();
+            azzera();
+        } catch (IOException ex) {
+            Logger.getLogger(Form2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
+    public void azzera(){
+        this.panel.removeAll();
+            this.panel.revalidate();
+    }
     /**
      * @param args the command line arguments
      */
@@ -129,24 +175,37 @@ public class Form2 extends javax.swing.JFrame {
 
     public void AggiungiDestra(String s, int y, int altezza) {
         JLabel l = new JLabel();
-        l.setBounds(200, y, 200, altezza);
+        l.setLocation(200, y);
+        l.setSize(200, altezza);
         l.setText(s);
-        l.setBackground(Color.GREEN);
-        this.add(l);
+        l.setBorder(BorderFactory.createLineBorder(Color.black));
+        l.setBackground(new Color(140,186,130));
+        l.setOpaque(true);
+        panel.add(l);
+        this.repaint();
+        
     }
 
     public void AggiungiSinistra(String s, int y, int altezza) {
         JLabel l = new JLabel();
-        l.setBounds(0, y, 200, altezza);
+         l.setLocation(0, y);
+        l.setSize(200, altezza);
         l.setText(s);
-        l.setBackground(Color.LIGHT_GRAY);
-        this.add(l);
+        l.setBorder(BorderFactory.createLineBorder(Color.black));       
+        l.setBackground(Color.WHITE);
+        l.setOpaque(true);
+        panel.add(l);
+        this.repaint();
+       
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Invia;
     private javax.swing.JLabel Nome;
     private javax.swing.JTextField TxtMessaggio;
+    private javax.swing.JButton invia;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
 }
