@@ -6,6 +6,7 @@
 package chat;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.logging.Level;
@@ -82,9 +83,6 @@ public class Form2 extends javax.swing.JFrame {
                 inviaActionPerformed(evt);
             }
         });
-
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -182,6 +180,9 @@ public class Form2 extends javax.swing.JFrame {
         l.setBackground(new Color(140,186,130));
         l.setOpaque(true);
         panel.add(l);
+        Integer tmp=panel.getHeight();
+        tmp=tmp+100;
+        panel.setPreferredSize(new Dimension(panel.getWidth(), tmp));
         this.repaint();
         
     }
@@ -195,6 +196,9 @@ public class Form2 extends javax.swing.JFrame {
         l.setBackground(Color.WHITE);
         l.setOpaque(true);
         panel.add(l);
+        Integer tmp=panel.getHeight();
+        tmp=tmp+100;
+        panel.setPreferredSize(new Dimension(panel.getWidth(), tmp));
         this.repaint();
        
     }
